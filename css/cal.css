@@ -1,0 +1,67 @@
+/******************/
+/** calendar css **/
+/******************/
+
+.table_container {
+	width: 650px;
+	border: 1px solid black;
+	text-align: center;
+}
+
+.table_header {
+	width: 650px;
+}
+
+.header_non_day {
+	width: 23%;
+	border: 1px solid black;
+}
+
+#left {
+	border-right-width: 0px;
+}
+
+#right {
+	border-left-width: 0px;
+}
+
+.header_day {
+	width: 7.5%;
+	border: 1px solid black;
+}
+
+.description {
+	border: 1px solid black;
+}
+
+.day_value {
+	border: 1px solid black;
+}
+
+.shift_name{
+	border: 1px solid black;
+}
+
+#first {
+	border: 1px solid black;
+	border-bottom-width: 0px;
+}
+
+#empty {
+	border: 1px solid black;
+	border-bottom-width: 0px;
+	border-top-width: 0px;
+}
+
+#last {
+	border: 1px solid black;
+	border-top-width: 0px;
+}
+
+.user_name{
+	border: 1px solid black;
+}
+
+.user_data{
+	border: 1px solid black;	
+}
