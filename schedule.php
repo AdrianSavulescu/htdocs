@@ -70,7 +70,6 @@ if($user->isLoggedIn()) {
 
 				<ul class="tabbed">
 					<li class="current_page_item"><a href="schedule.php">Schedule</a></li>
-					<li><a href="voucher.php">Voucher</a></li>
 					<li><a href="admin.php">Administration</a></li>
 				</ul>
 

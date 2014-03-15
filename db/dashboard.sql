@@ -10,11 +10,10 @@ Target Server Type    : MYSQL
 Target Server Version : 50616
 File Encoding         : 65001
 
-Date: 2014-03-13 21:08:42
+Date: 2014-03-15 05:31:34
 */
 
 SET FOREIGN_KEY_CHECKS=0;
-
 -- ----------------------------
 -- Table structure for `departments`
 -- ----------------------------
@@ -23,7 +22,7 @@ CREATE TABLE `departments` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of departments
@@ -48,7 +47,6 @@ CREATE TABLE `overtime` (
 -- ----------------------------
 -- Records of overtime
 -- ----------------------------
-INSERT INTO `overtime` VALUES ('30', '163', '8/1/2014', '6', 'test', 'Denied');
 
 -- ----------------------------
 -- Table structure for `pto`
@@ -67,12 +65,6 @@ CREATE TABLE `pto` (
 -- ----------------------------
 -- Records of pto
 -- ----------------------------
-INSERT INTO `pto` VALUES ('5', '163', '21/4/2013', '21/4/2013', '', 'Approved');
-INSERT INTO `pto` VALUES ('6', '163', '19/4/2013', '19/4/2013', '', 'Approved');
-INSERT INTO `pto` VALUES ('7', '163', '21/4/2013', '22/4/2013', '', 'Denied');
-INSERT INTO `pto` VALUES ('10', '163', '10/7/2013', '11/7/2013', 'yr', 'Approved');
-INSERT INTO `pto` VALUES ('11', '163', '15/1/2014', '15/1/2014', 'test', 'Approved');
-INSERT INTO `pto` VALUES ('12', '163', '7/3/2014', '9/3/2014', 'mata', 'Denied');
 
 -- ----------------------------
 -- Table structure for `schedule`
@@ -87,122 +79,67 @@ CREATE TABLE `schedule` (
   `shift` varchar(255) DEFAULT NULL,
   `department` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=941 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1432 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of schedule
 -- ----------------------------
-INSERT INTO `schedule` VALUES ('816', '3', '3', '2014', 'Savulescu Adrian', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('817', '4', '3', '2014', 'Savulescu Adrian', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('821', '3', '3', '2014', 'Savulescu Adrian', '4 Graveyard shift', 'RPM SSP');
-INSERT INTO `schedule` VALUES ('822', '4', '3', '2014', 'Savulescu Adrian', '4 Graveyard shift', 'RPM SSP');
-INSERT INTO `schedule` VALUES ('823', '5', '3', '2014', 'Savulescu Adrian', '4 Graveyard shift', 'RPM SSP');
-INSERT INTO `schedule` VALUES ('824', '6', '3', '2014', 'Savulescu Adrian', '4 Graveyard shift', 'RPM SSP');
-INSERT INTO `schedule` VALUES ('825', '7', '3', '2014', 'Savulescu Adrian', '4 Graveyard shift', 'RPM SSP');
-INSERT INTO `schedule` VALUES ('827', '9', '3', '2014', 'Savulescu Adrian', '4 Graveyard shift', 'RPM SSP');
-INSERT INTO `schedule` VALUES ('828', '10', '3', '2014', 'Savulescu Adrian', '4 Graveyard shift', 'RPM SSP');
-INSERT INTO `schedule` VALUES ('829', '11', '3', '2014', 'Savulescu Adrian', '4 Graveyard shift', 'RPM SSP');
-INSERT INTO `schedule` VALUES ('830', '12', '3', '2014', 'Savulescu Adrian', '4 Graveyard shift', 'RPM SSP');
-INSERT INTO `schedule` VALUES ('831', '13', '3', '2014', 'Savulescu Adrian', '4 Graveyard shift', 'RPM SSP');
-INSERT INTO `schedule` VALUES ('833', '15', '3', '2014', 'Savulescu Adrian', '4 Graveyard shift', 'RPM SSP');
-INSERT INTO `schedule` VALUES ('835', '17', '3', '2014', 'Savulescu Adrian', '4 Graveyard shift', 'RPM SSP');
-INSERT INTO `schedule` VALUES ('836', '18', '3', '2014', 'Savulescu Adrian', '4 Graveyard shift', 'RPM SSP');
-INSERT INTO `schedule` VALUES ('837', '19', '3', '2014', 'Savulescu Adrian', '4 Graveyard shift', 'RPM SSP');
-INSERT INTO `schedule` VALUES ('838', '20', '3', '2014', 'Savulescu Adrian', '4 Graveyard shift', 'RPM SSP');
-INSERT INTO `schedule` VALUES ('839', '21', '3', '2014', 'Savulescu Adrian', '4 Graveyard shift', 'RPM SSP');
-INSERT INTO `schedule` VALUES ('840', '22', '3', '2014', 'Savulescu Adrian', '4 Graveyard shift', 'RPM SSP');
-INSERT INTO `schedule` VALUES ('841', '23', '3', '2014', 'Savulescu Adrian', '4 Graveyard shift', 'RPM SSP');
-INSERT INTO `schedule` VALUES ('842', '24', '3', '2014', 'Savulescu Adrian', '4 Graveyard shift', 'RPM SSP');
-INSERT INTO `schedule` VALUES ('843', '25', '3', '2014', 'Savulescu Adrian', '4 Graveyard shift', 'RPM SSP');
-INSERT INTO `schedule` VALUES ('844', '26', '3', '2014', 'Savulescu Adrian', '4 Graveyard shift', 'RPM SSP');
-INSERT INTO `schedule` VALUES ('845', '27', '3', '2014', 'Savulescu Adrian', '4 Graveyard shift', 'RPM SSP');
-INSERT INTO `schedule` VALUES ('846', '28', '3', '2014', 'Savulescu Adrian', '4 Graveyard shift', 'RPM SSP');
-INSERT INTO `schedule` VALUES ('847', '29', '3', '2014', 'Savulescu Adrian', '4 Graveyard shift', 'RPM SSP');
-INSERT INTO `schedule` VALUES ('852', '5', '3', '2014', 'Savulescu Adrian', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('853', '6', '3', '2014', 'Savulescu Adrian', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('854', '7', '3', '2014', 'Savulescu Adrian', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('855', '8', '3', '2014', 'Savulescu Adrian', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('856', '9', '3', '2014', 'Savulescu Adrian', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('857', '10', '3', '2014', 'Savulescu Adrian', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('858', '11', '3', '2014', 'Savulescu Adrian', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('859', '12', '3', '2014', 'Savulescu Adrian', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('860', '13', '3', '2014', 'Savulescu Adrian', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('861', '14', '3', '2014', 'Savulescu Adrian', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('862', '15', '3', '2014', 'Savulescu Adrian', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('863', '16', '3', '2014', 'Savulescu Adrian', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('864', '17', '3', '2014', 'Savulescu Adrian', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('865', '18', '3', '2014', 'Savulescu Adrian', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('866', '19', '3', '2014', 'Savulescu Adrian', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('867', '20', '3', '2014', 'Savulescu Adrian', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('868', '21', '3', '2014', 'Savulescu Adrian', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('869', '22', '3', '2014', 'Savulescu Adrian', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('870', '23', '3', '2014', 'Savulescu Adrian', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('871', '24', '3', '2014', 'Savulescu Adrian', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('872', '25', '3', '2014', 'Savulescu Adrian', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('873', '26', '3', '2014', 'Savulescu Adrian', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('874', '27', '3', '2014', 'Savulescu Adrian', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('875', '28', '3', '2014', 'Savulescu Adrian', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('876', '29', '3', '2014', 'Savulescu Adrian', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('877', '30', '3', '2014', 'Savulescu Adrian', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('878', '31', '3', '2014', 'Savulescu Adrian', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('881', '3', '3', '2014', 'teo', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('882', '4', '3', '2014', 'teo', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('883', '5', '3', '2014', 'teo', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('884', '6', '3', '2014', 'teo', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('885', '7', '3', '2014', 'teo', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('886', '8', '3', '2014', 'teo', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('887', '9', '3', '2014', 'teo', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('888', '10', '3', '2014', 'teo', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('889', '11', '3', '2014', 'teo', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('890', '12', '3', '2014', 'teo', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('891', '13', '3', '2014', 'teo', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('892', '14', '3', '2014', 'teo', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('893', '15', '3', '2014', 'teo', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('894', '16', '3', '2014', 'teo', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('895', '17', '3', '2014', 'teo', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('896', '18', '3', '2014', 'teo', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('897', '19', '3', '2014', 'teo', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('898', '20', '3', '2014', 'teo', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('899', '21', '3', '2014', 'teo', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('900', '22', '3', '2014', 'teo', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('901', '23', '3', '2014', 'teo', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('902', '24', '3', '2014', 'teo', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('903', '25', '3', '2014', 'teo', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('904', '26', '3', '2014', 'teo', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('905', '27', '3', '2014', 'teo', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('906', '28', '3', '2014', 'teo', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('907', '29', '3', '2014', 'teo', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('908', '30', '3', '2014', 'teo', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('909', '31', '3', '2014', 'teo', '1 Morning shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('910', '1', '3', '2014', 'teo', '3 Night shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('911', '2', '3', '2014', 'teo', '3 Night shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('912', '3', '3', '2014', 'teo', '3 Night shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('913', '4', '3', '2014', 'teo', '3 Night shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('914', '5', '3', '2014', 'teo', '3 Night shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('915', '6', '3', '2014', 'teo', '3 Night shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('916', '7', '3', '2014', 'teo', '3 Night shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('917', '8', '3', '2014', 'teo', '3 Night shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('918', '9', '3', '2014', 'teo', '3 Night shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('919', '10', '3', '2014', 'teo', '3 Night shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('920', '11', '3', '2014', 'teo', '3 Night shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('921', '12', '3', '2014', 'teo', '3 Night shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('922', '13', '3', '2014', 'teo', '3 Night shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('923', '14', '3', '2014', 'teo', '3 Night shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('924', '15', '3', '2014', 'teo', '3 Night shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('925', '16', '3', '2014', 'teo', '3 Night shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('928', '19', '3', '2014', 'teo', '3 Night shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('929', '20', '3', '2014', 'teo', '3 Night shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('930', '21', '3', '2014', 'teo', '3 Night shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('931', '22', '3', '2014', 'teo', '3 Night shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('932', '23', '3', '2014', 'teo', '3 Night shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('933', '24', '3', '2014', 'teo', '3 Night shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('934', '25', '3', '2014', 'teo', '3 Night shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('935', '26', '3', '2014', 'teo', '3 Night shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('936', '27', '3', '2014', 'teo', '3 Night shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('937', '28', '3', '2014', 'teo', '3 Night shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('938', '29', '3', '2014', 'teo', '3 Night shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('939', '30', '3', '2014', 'teo', '3 Night shift', 'RPM GOC');
-INSERT INTO `schedule` VALUES ('940', '31', '3', '2014', 'teo', '3 Night shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1360', '17', '3', '2014', 'Savulescu Adrian', '1st Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1361', '18', '3', '2014', 'Savulescu Adrian', '1st Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1362', '19', '3', '2014', 'Savulescu Adrian', '1st Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1363', '20', '3', '2014', 'Savulescu Adrian', '1st Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1364', '21', '3', '2014', 'Savulescu Adrian', '1st Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1365', '22', '3', '2014', 'Savulescu Adrian', '1st Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1366', '23', '3', '2014', 'Savulescu Adrian', '1st Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1367', '24', '3', '2014', 'Savulescu Adrian', '1st Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1368', '25', '3', '2014', 'Savulescu Adrian', '1st Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1369', '26', '3', '2014', 'Savulescu Adrian', '1st Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1370', '27', '3', '2014', 'Savulescu Adrian', '1st Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1371', '28', '3', '2014', 'Savulescu Adrian', '1st Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1372', '29', '3', '2014', 'Savulescu Adrian', '1st Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1373', '30', '3', '2014', 'Savulescu Adrian', '1st Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1374', '31', '3', '2014', 'Savulescu Adrian', '1st Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1391', '17', '3', '2014', 'Savulescu Adrian', '3rd Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1392', '18', '3', '2014', 'Savulescu Adrian', '3rd Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1393', '19', '3', '2014', 'Savulescu Adrian', '3rd Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1394', '20', '3', '2014', 'Savulescu Adrian', '3rd Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1395', '21', '3', '2014', 'Savulescu Adrian', '3rd Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1396', '22', '3', '2014', 'Savulescu Adrian', '3rd Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1397', '23', '3', '2014', 'Savulescu Adrian', '3rd Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1398', '24', '3', '2014', 'Savulescu Adrian', '3rd Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1399', '25', '3', '2014', 'Savulescu Adrian', '3rd Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1400', '26', '3', '2014', 'Savulescu Adrian', '3rd Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1401', '27', '3', '2014', 'Savulescu Adrian', '3rd Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1402', '28', '3', '2014', 'Savulescu Adrian', '3rd Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1403', '29', '3', '2014', 'Savulescu Adrian', '3rd Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1404', '30', '3', '2014', 'Savulescu Adrian', '3rd Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1405', '31', '3', '2014', 'Savulescu Adrian', '3rd Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1406', '1', '3', '2014', 'Savulescu Adrian', '2nd Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1407', '2', '3', '2014', 'Savulescu Adrian', '2nd Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1408', '3', '3', '2014', 'Savulescu Adrian', '2nd Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1409', '4', '3', '2014', 'Savulescu Adrian', '2nd Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1410', '5', '3', '2014', 'Savulescu Adrian', '2nd Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1411', '6', '3', '2014', 'Savulescu Adrian', '2nd Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1412', '7', '3', '2014', 'Savulescu Adrian', '2nd Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1413', '8', '3', '2014', 'Savulescu Adrian', '2nd Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1414', '9', '3', '2014', 'Savulescu Adrian', '2nd Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1415', '10', '3', '2014', 'Savulescu Adrian', '2nd Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1416', '11', '3', '2014', 'Savulescu Adrian', '2nd Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1417', '12', '3', '2014', 'Savulescu Adrian', '2nd Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1418', '13', '3', '2014', 'Savulescu Adrian', '2nd Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1419', '14', '3', '2014', 'Savulescu Adrian', '2nd Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1420', '15', '3', '2014', 'Savulescu Adrian', '2nd Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1421', '16', '3', '2014', 'Savulescu Adrian', '2nd Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1422', '17', '3', '2014', 'Savulescu Adrian', '2nd Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1423', '18', '3', '2014', 'Savulescu Adrian', '2nd Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1424', '19', '3', '2014', 'Savulescu Adrian', '2nd Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1425', '20', '3', '2014', 'Savulescu Adrian', '2nd Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1426', '21', '3', '2014', 'Savulescu Adrian', '2nd Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1427', '22', '3', '2014', 'Savulescu Adrian', '2nd Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1428', '23', '3', '2014', 'Savulescu Adrian', '2nd Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1429', '24', '3', '2014', 'Savulescu Adrian', '2nd Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1430', '25', '3', '2014', 'Savulescu Adrian', '2nd Shift', 'RPM GOC');
+INSERT INTO `schedule` VALUES ('1431', '26', '3', '2014', 'Savulescu Adrian', '2nd Shift', 'RPM GOC');
 
 -- ----------------------------
 -- Table structure for `shifts`
@@ -214,15 +151,15 @@ CREATE TABLE `shifts` (
   `description` varchar(255) DEFAULT NULL,
   `department_id` int(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of shifts
 -- ----------------------------
-INSERT INTO `shifts` VALUES ('9', '1 Morning shift', '07:00AM to 4:00PM', '1');
-INSERT INTO `shifts` VALUES ('10', '2 Day shift', '10:00AM to 7:00PM', '1');
-INSERT INTO `shifts` VALUES ('11', '3 Night shift', '7:00PM to 4:00AM', '1');
-INSERT INTO `shifts` VALUES ('12', '4 Graveyard shift', '10:00PM to 7:00AM', '2');
+INSERT INTO `shifts` VALUES ('13', '1st Shift', 'from 7AM to 4PM', '2');
+INSERT INTO `shifts` VALUES ('14', '2nd Shift', 'from 10AM to 7PM', '1');
+INSERT INTO `shifts` VALUES ('15', '3rd Shift', 'from 7PM to 4AM', '1');
+INSERT INTO `shifts` VALUES ('16', '4th Shift', 'from 10PM to 7AM', '1');
 
 -- ----------------------------
 -- Table structure for `users`
@@ -237,14 +174,23 @@ CREATE TABLE `users` (
   `admin` tinyint(255) NOT NULL,
   `color` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=168 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=180 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES ('162', 'goc', 'erttre', '0/1', '0', '1', '#000000');
-INSERT INTO `users` VALUES ('163', 'Savulescu Adrian', 'asavulescu', '0/1', '1', '1', '#ff8040');
-INSERT INTO `users` VALUES ('167', 'teo', 'teo', '0/1', '1', '1', '#96fb84');
+INSERT INTO `users` VALUES ('1', 'Savulescu Adrian', 'asavulescu@ea.com', '0/2', '1', '1', '#aef596');
+INSERT INTO `users` VALUES ('168', 'Alin Patulea', 'alpatulea', '4/5', '1', '0', '#4aa85a');
+INSERT INTO `users` VALUES ('169', 'Andreea Ifrim', 'aifrim@ea.com', '4/5', '1', '0', '#b8e12b');
+INSERT INTO `users` VALUES ('170', 'Ionut Toma', 'itoma@ea.com', '0/1', '1', '1', '#d387fc');
+INSERT INTO `users` VALUES ('171', 'Andrei Gheorghe', 'angheorghe@ea.com', '5/6', '1', '0', '#6f9d7c');
+INSERT INTO `users` VALUES ('172', 'Petru Burca', 'pburca@ea.com', '0/1', '1', '0', '#baad83');
+INSERT INTO `users` VALUES ('173', 'Vlasceanu Florin', 'fvlasceanu@ea.com', '0/6', '1', '0', '#a8c4aa');
+INSERT INTO `users` VALUES ('174', 'Florescu Bogdan', 'bflorescu@ea.com', '4/5', '1', '0', '#a89e82');
+INSERT INTO `users` VALUES ('175', 'Chiriac Alexandru', 'achiriac@ea.com', '4/5', '1', '0', '#c6978e');
+INSERT INTO `users` VALUES ('176', 'Ana Constantin', 'coana@ea.com', '4/5', '1', '0', '#aaab92');
+INSERT INTO `users` VALUES ('177', 'Iancu Alexandru', 'aliancu@ea.com', '4/5', '1', '0', '#a9a6d7');
+INSERT INTO `users` VALUES ('178', 'Andreea Custura', 'acustura@ea.com', '5/6', '1', '0', '#edd68f');
 
 -- ----------------------------
 -- Table structure for `users_session`
@@ -262,3 +208,22 @@ CREATE TABLE `users_session` (
 -- ----------------------------
 INSERT INTO `users_session` VALUES ('9', '22', 'cfff0ba656f504b9085e31ba66fa5cae0f74224e1a6929ea9d169ba4829dd393');
 INSERT INTO `users_session` VALUES ('10', '143', '45e7daca30fdfe8818423fa7618c7909d83058a41290ef50c240bc5141577a4c');
+
+-- ----------------------------
+-- Table structure for `vouchers`
+-- ----------------------------
+DROP TABLE IF EXISTS `vouchers`;
+CREATE TABLE `vouchers` (
+  `id` int(50) NOT NULL AUTO_INCREMENT,
+  `user_id` int(50) DEFAULT NULL,
+  `key` varchar(255) DEFAULT NULL,
+  `number` varchar(255) DEFAULT NULL,
+  `returned` varchar(255) DEFAULT NULL,
+  `sent` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of vouchers
+-- ----------------------------
+INSERT INTO `vouchers` VALUES ('11', '1', 'ear', '123123', 'Yes', 'Yes');

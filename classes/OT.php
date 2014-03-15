@@ -175,7 +175,7 @@ Class OT {
 		return $this->_ot_request_form;
 	}
 
-		private function get_user_name($id){
+	private function get_user_name($id){
 
 		$data = $this->_db->query('SELECT overtime.user_id, users.username, users.id FROM users, overtime WHERE overtime.user_id = users.id AND overtime.user_id = ?', array($id));
 	

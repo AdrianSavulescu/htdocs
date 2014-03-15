@@ -10,9 +10,11 @@ Class Calendar {
 			$_shift_counter = 1,
 			$_shift_checker = NULL,
 			$_schedule_form,
+			$_week,
 			$_calendar = NULL;
 
-	public  $department;
+	public $department;
+	public $edit = false;
 
 	public function __construct() {
 	
@@ -59,14 +61,12 @@ Class Calendar {
 			//calendar generator loop based on each week in the month
 			for ($i=0; $i<$week_number;$i++) {
 
-				$week = $i + 1;
-				$this->_calendar .= '<caption>Week: '. $week .'</caption>';
+				$this->_week = $i + 1;
 				$this->_calendar .= '<table class="table_container" cellspacing="0">';
-
 				self::daysGenerator($this->_data['days_in_month'], $this->_data['total_days']);
 				self::schedule();
 				$this->_calendar .= '</tbody>';
-				$this->_calendar .= '</table>';
+				$this->_calendar .= '</table><br></br>';
 			}
 
 		
@@ -144,7 +144,7 @@ Class Calendar {
 			}
 
 			if ($i==0) {
-				$this->_calendar .= '<th class="header_non_day">&nbsp;</th>';
+				$this->_calendar .= '<th class="header_non_day">Week '. $this->_week .'</th>';
 			}  else if ($i==8){
 				$this->_calendar .= '</tr>';
 				$this->_calendar .= '</thead>';
@@ -189,6 +189,8 @@ Class Calendar {
 
 				$usercount = 0;
 
+				$shift_data = self::get_shift_details($shift->shift);
+
 				foreach(self::get_users_by_shift($shift->shift) as $user) {
 
 					$usercount++;
@@ -199,7 +201,7 @@ Class Calendar {
 
 					$this->_calendar .= '<tr class="shift_data_container">';
 
-					$this->_calendar .= '<td class="shift_name" rowspan="'.$usercount.'">'. $shift->shift .'</td>';
+					$this->_calendar .= '<td class="shift_name" rowspan="'.$usercount.'">'. $shift->shift .' '. $shift_data[0]->description .'</td>';
 
 				}
 
@@ -216,18 +218,26 @@ Class Calendar {
 					$this->_currentDay = $current_day;
 					
 					if ($data = self::user_is_active_on_shift($user->username, $shift->shift)){
+
 						$color = self::get_user_color($user->username);
 
-						$this->_calendar .= '<td class="user_data" id="'. $data[0]->id .'" style="background-color: '. $color[0]->color .';">
+						$this->_calendar .= '<td class="user_data" id="'. $data[0]->id .'" style="background-color: '. $color[0]->color .';">';
 
-						<div class="userbox" id="'.$data[0]->id.'">
+						$this->_calendar .= '
+						<div class="userbox" id="'.$data[0]->id.'"> '. $user->username;
+
+						if($this->edit == true) {
+
+						$this->_calendar .= '
 							<form action="schedule.php?page=management&ajax=true" method="post">
 								<input type="hidden" name="id" value="'. $data[0]->id .'" class="id">
-								<input type="submit" name="remove_entry" value="x" class="ajax_btn" style="vertical-align:bottom;overflow:visible; font-size:1em; display:inline;  margin:0; padding:0; border:1; color:black; cursor:pointer;width: 15px;">
-							</form>
-						</div>
+								<input type="submit" name="remove_entry" value="x" class="ajax_btn">
+							</form>';
 
-						</td>';
+						}
+
+						$this->_calendar .= '</div></td>';
+
 					} else {
 						$this->_calendar .= '<td class="user_data" id="OFF">&nbsp;</td>';
 					} 
@@ -300,7 +310,7 @@ Class Calendar {
 
 	private function get_shift_details($name){
 
-		$data = $this->_db->get('shifts', array('shift_name', '=', $name));
+		$data = $this->_db->get('shifts', array('name', '=', $name));
 	
 		return $data = $data->results();
 	}
@@ -383,11 +393,17 @@ Class Calendar {
 			$month = 'December';
 		}
 
+		if($this->edit == true){
+			$action = 'schedule_management.php';
+		} else {
+			$action = 'schedule.php';
+		}
+
 
 		echo '
 
 		<div class="title_bar">
-			<form name="calendar_control" action="schedule.php" method="post">
+			<form name="calendar_control" action="'. $action .'" method="post">
 
 				<div class="previous_month">
 

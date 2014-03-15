@@ -1,5 +1,6 @@
 function DoUserUpdate() {document.update_user.submit();}
 function DoShiftUpdate() {document.update_shift.submit();}
+function DoDepartmentUpdate() {document.update_department.submit();}
 function DoScheduleUpdate() {document.schedule_form.submit();}
 
 
@@ -21,7 +22,6 @@ function () {
         $.post("schedule_management.php?ajax=true", { id : idVal }, function (data) {
             $("#" + idVal + ".userbox").remove();
             $("#" + idVal + ".user_data").css('background-color', '#FFFFFF');
-            alert("Entry deleted succesfully!");
 
         }
     );

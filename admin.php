@@ -68,7 +68,6 @@ if($user->isLoggedIn()) {
 
 				<ul class="tabbed">
 					<li><a href="schedule.php">Schedule</a></li>
-					<li><a href="voucher.php">Voucher</a></li>
 					<li class="current_page_item"><a href="admin.php">Administration</a></li>
 				</ul>
 
@@ -414,6 +413,219 @@ if($user->isLoggedIn()) {
 							echo '</div>';
 							break;
 
+							case 'department':
+							
+							echo '<div class="post-title"><h1>Departments Administration</h1></div>';
+							echo '<div class="post-body">';
+						
+							//do department management stuff here
+
+							$department = new Department();
+
+
+							//add department stuff
+							$input = Input::get('add_department');
+
+							if($input == 'Add department') {
+
+								$validate = new Validate();
+								$validation = $validate->check($_POST, array(
+									'name' => array (
+										'required' => true
+									)
+								));
+
+								if ($validation->passed()) {
+
+
+									try {
+
+										
+										$department->create(array(
+											'name' => Input::get('name')
+										));
+
+										echo 'Success';
+
+									} catch(Exception $e) {
+										die($e->getMessage());
+									}
+								} else {
+									foreach($validation->errors() as $error) {
+										echo $error, '<br>';
+									}
+								}
+							}
+							echo $department->add_department_form();
+						
+
+							//edit department stuff
+							$params = array();
+							$params['name'] = '';
+							$params['id'] = 0;
+								
+							
+							if (!empty(Input::get('departmentlist')) AND Input::get('departmentlist') != '0' AND Input::get('update_department') != 'Update department' AND Input::get('update_department') != 'Delete department') {
+
+								$temp = $department->get_department_details(Input::get('departmentlist'));
+
+								$params['name'] = $temp[0]->name;
+								$params['id'] = $temp[0]->id;
+
+							}
+
+							$input = Input::get('update_department');
+
+							if($input == 'Update department') {
+
+
+								$validate = new Validate();
+								$validation = $validate->check($_POST, array(
+									'name' => array(
+										'required' => true
+										)
+								));
+
+								if($validation->passed()) {
+
+									try {
+										
+
+										$id = Input::get('id');
+
+										$department->update(array(
+											'name' => Input::get('name')
+										), 	$id);
+
+										echo 'Success';
+
+									} catch (Exception $e) {
+										die($e->getMessage());
+									}
+									
+								} else {
+									foreach($validation->errors() as $error) {
+										echo $error, '<br>';
+									}
+								}
+
+							}
+
+							echo $department->update_department_form($params);
+
+							//delete department stuff
+							
+							$input = Input::get('delete_department');
+
+							if($input == 'Delete department') {
+
+								$validate = new Validate();
+								$validation = $validate->check($_POST, array(
+									'delete_departmentlist' => array(
+										'required' => true
+									)
+								));
+
+								if($validation->passed()) {
+
+									try {
+
+										$department->delete(array('name', '=', Input::get('delete_departmentlist')));
+
+											echo 'Success';
+
+										} catch (Exception $e) {
+										die($e->getMessage());
+									}
+									
+								} else {
+									foreach($validation->errors() as $error) {
+										echo $error, '<br>';
+									}
+								}
+							}
+
+							echo $department->delete_department_form();
+
+
+							echo '</div>';
+							break;
+
+							case 'voucher':
+							
+							echo '<div class="post-title"><h1>Vouchers Management</h1></div>';
+							echo '<div class="post-body">';
+						
+							//do voucher management stuff here
+
+							$voucher = new Voucher;
+
+							$action = Input::get('action');
+							$value = Input::get('id');
+
+							$voucher->check_page_action($action, $value);
+
+							$user_details = $voucher->get_user_details($data->username);
+						
+							$voucher->department =  $user_details[0]->department_name;
+
+
+							$params['user_id'] = Input::get('userlist');
+							$params['key'] = Input::get('key');
+
+
+							//add voucher entry stuff
+							$input = Input::get('add_entry');
+
+							if($input == 'Add voucher entry' AND Input::get('userlist') != '0')  {
+
+								$validate = new Validate();
+								$validation = $validate->check($_POST, array(
+									'userlist' => array (
+										'required' => true
+									),
+									'key' => array (
+										'required' => true
+									),
+									'number' => array (
+										'required' => true
+									)
+								));
+
+								if ($validation->passed()) {
+
+
+									try {
+
+										$voucher->create(array(
+											'user_id' => Input::get('userlist'),
+											'key' => Input::get('key'),
+											'number' => Input::get('number'),
+											'returned' => 'No',
+											'sent' => 'No'
+										));
+
+										echo 'Success';
+
+									} catch(Exception $e) {
+										die($e->getMessage());
+									}
+								} else {
+									foreach($validation->errors() as $error) {
+										echo $error, '<br>';
+									}
+								}
+							}
+							
+							echo $voucher->form($params);
+
+							echo $voucher->generate_voucher_management();
+
+
+
+							echo '</div>';
+							break;
+
 							case 'PTO':
 							
 							echo '<div class="post-title"><h1>PTO Management</h1></div>';
@@ -485,6 +697,8 @@ if($user->isLoggedIn()) {
 							<ul class="nice-list">
 								<li><a href="admin.php?page=user">User administration</a></li>
 								<li><a href="admin.php?page=shift">Shifts administration</a></li>
+								<li><a href="admin.php?page=department">Departments administration</a></li>
+								<li><a href="admin.php?page=voucher">Vouchers administration</a></li>
 								<li><a href="admin.php?page=PTO">PTO Management</a></li>
 								<li><a href="admin.php?page=OT">OT Management</a></li>
 								<li><a href="schedule_management.php">Schedule Management</a></li>

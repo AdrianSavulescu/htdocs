@@ -109,6 +109,8 @@ if($user->isLoggedIn()) {
 						
 						$calendar->department = $user_details[0]->department_name;
 
+						$calendar->edit = true;
+
 						//generate calendar menu bar
 						echo $calendar->generate_bar();
 

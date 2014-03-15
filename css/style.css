@@ -687,6 +687,9 @@ ul.tabbed a {text-decoration: none;}
 	width: 910px;
 	border: 1px solid black;
 	text-align: center;
+	font-size: 11px;
+	font-weight: bold;
+	color: black;
 
 }
 
@@ -697,27 +700,37 @@ ul.tabbed a {text-decoration: none;}
 .header_non_day {
 	width: 20%;
 	border: 1px solid black;
+	text-align: center;
+	background-color: #C4BD97;
+	font-size: 13px;
+	font-weight: bold;
 }
 
 .header_day {
 	width: 11%;
 	border: 1px solid black;
 	text-align: center;
+	background-color: #C4BD97;
+	font-size: 13px;
+	font-weight: bold;
 }
 
 .description {
 	border: 1px solid black;
 	text-align: center;
+	background-color: #C4BD97;
 }
 
 .day_value {
 	border: 1px solid black;
 	text-align: center;
 	background-color: #9C9;
+	font-size: 13px;
+	font-weight: bold;
 }
 
 #valid {
-	
+	background-color: #76933C;
 }
 
 #invalid {
@@ -727,6 +740,8 @@ ul.tabbed a {text-decoration: none;}
 .shift_name{
 	border: 1px solid black;
 	text-align: center;
+	font-size: 13px;
+	font-weight: bold;
 }
 
 #first {
@@ -750,9 +765,25 @@ ul.tabbed a {text-decoration: none;}
 }
 
 .user_data{
-	border-left: 1px solid black;
-	border-right: 1px solid black;
-	border-top: 1px solid black;
+	border: 1px solid black;
 	text-align: center;
 }
 
+.userbox {
+	font-size: 11px;
+	font-weight: bold;
+	color: black;
+}
+
+.ajax_btn {
+	vertical-align:bottom;
+	overflow:visible; 
+	font-size:1em; 
+	display:inline;  
+	margin:0; 
+	padding:0; 
+	border:1; 
+	color:black; 
+	cursor:pointer;
+	width: 13px;
+}
