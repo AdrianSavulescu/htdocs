@@ -4,9 +4,10 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
 	<link rel="stylesheet" type="text/css" href="css/style.css" media="screen" />
-	<script src="js/jquery-1.11.0.min.js"></script>
-	<script src="js/jquery-ui-1.10.4.custom.min.js" type="text/javascript"></script>
-	<script src="js/javascript.js" type="text/javascript"></script>
+	<link rel="stylesheet" type="text/css" href="css/ui-lightness/jquery-ui-1.10.4.custom.min.css" media="screen" />
+	<script src="/js/jquery-1.11.0.min.js"></script>
+	<script src="/js/jquery-ui-1.10.4.custom.min.js" type="text/javascript"></script>
+	<script src="/js/javascript.js" type="text/javascript"></script>
 	<title>Romania RPM Dashboard</title>
 </head>
 
@@ -111,13 +112,18 @@ if($user->isLoggedIn()) {
 								$validate = new Validate();
 								$validation = $validate->check($_POST, array(
 									'first_pto' => array (
-										'required' => true
+										'required' => true,
+										'date' => true,
+										'lower' =>  Input::get('last_pto')
 									),
 									'last_pto' => array (
-										'required' => true
+										'required' => true,
+										'date' => true
 									),
 									'pto_description' => array (
-										'required' => true
+										'required' => true,
+										'min' => '3',
+										'max' => '30'
 									)
 								));
 
@@ -146,7 +152,10 @@ if($user->isLoggedIn()) {
 								}
 							}
 
-							echo $pto->pto_request_form();
+							echo $pto->self_pto_request_form();
+
+							echo 'My PTO requests';
+							echo $pto->generate_my_pto_list($data->id);
 
 							echo '</div>';
 							break;
@@ -165,13 +174,18 @@ if($user->isLoggedIn()) {
 								$validate = new Validate();
 								$validation = $validate->check($_POST, array(
 									'date' => array (
-										'required' => true
+										'required' => true,
+										'date' => true
 									),
 									'hours' => array (
-										'required' => true
+										'required' => true,
+										'min' => '1',
+										'max' => '20'
 									),
 									'description' => array (
-										'required' => true
+										'required' => true,
+										'min' => '2',
+										'max' => '30'
 									)
 								));
 
@@ -200,7 +214,10 @@ if($user->isLoggedIn()) {
 								}
 							}
 
-							echo $ot->ot_request_form();
+							echo $ot->self_ot_request_form();
+
+							echo 'My OT requests';
+							echo $ot->generate_my_ot_list($data->id);
 							
 							echo '</div>';
 							break;

@@ -1,6 +1,7 @@
 function DoUserUpdate() {document.update_user.submit();}
 function DoShiftUpdate() {document.update_shift.submit();}
 function DoDepartmentUpdate() {document.update_department.submit();}
+function DoDepartmentPick() {document.pick_department.submit();}
 function DoScheduleUpdate() {document.schedule_form.submit();}
 
 
@@ -12,6 +13,15 @@ function () {
    
     $("#datepicker_schedule_to").datepicker({ dateFormat: "d/m/yy" });
     $("#datepicker_schedule_to").datepicker( "option", "firstDay", 1 );
+
+    $("#datepicker_pto_from").datepicker({ dateFormat: "d/m/yy" });
+    $("#datepicker_pto_from").datepicker( "option", "firstDay", 1 );
+
+    $("#datepicker_pto_to").datepicker({ dateFormat: "d/m/yy" });
+    $("#datepicker_pto_to").datepicker( "option", "firstDay", 1 );
+
+     $("#datepicker_ot_date").datepicker({ dateFormat: "d/m/yy" });
+    $("#datepicker_ot_date").datepicker( "option", "firstDay", 1 );
 
     $('.userbox form').on('submit',  function(ev) {
 

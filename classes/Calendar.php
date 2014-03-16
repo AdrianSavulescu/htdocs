@@ -62,11 +62,11 @@ Class Calendar {
 			for ($i=0; $i<$week_number;$i++) {
 
 				$this->_week = $i + 1;
-				$this->_calendar .= '<table class="table_container" cellspacing="0">';
+				$this->_calendar .= '<br></br><table class="table_container" cellspacing="0">';
 				self::daysGenerator($this->_data['days_in_month'], $this->_data['total_days']);
 				self::schedule();
 				$this->_calendar .= '</tbody>';
-				$this->_calendar .= '</table><br></br>';
+				$this->_calendar .= '</table>';
 			}
 
 		
@@ -171,12 +171,15 @@ Class Calendar {
 			$this->_counter++;
 			}
 			
+			$month_name = self::month_name($this->_currentMonth);
+
 			if ($type == 'valid') {
-				$value = $this->_counter;
+				$value = $month_name.' - '.$this->_counter;
 			} else {
 				$value = '&nbsp;';
 			}
 
+			
 			$this->_calendar .= '<td class="day_value" id="'. $type .'">'. $value .'</td>';
 		}
 
@@ -341,57 +344,66 @@ Class Calendar {
 
 	}
 
+	private function month_name($number) {
+
+		if ($number == 1) {
+			
+			$month = 'January';
+		}
+		if ($number == 2) {
+			
+			$month = 'February';
+		}
+		if ($number == 3) {
+			$month = 'March';
+		}
+
+		if ($number == 4) {
+			$month = 'April';
+		}
+
+		if ($number == 5) {
+			$month = 'May';
+		}
+
+		if ($number == 6) {
+			$month = 'June';
+		}
+
+		if ($number == 7) {
+			$month = 'July';
+		}
+
+		if ($number == 8) {
+			$month = 'August';
+		}
+
+		if ($number == 9) {
+			$month = 'September';
+		}
+
+		if ($number == 10) {
+			$month = 'October';
+		}
+
+		if ($number == 11) {
+			$month = 'November';
+		}
+
+		if ($number == 12) {
+			$month = 'December';
+		}
+
+		return $month;
+	}
+
+
+
 	public function generate_bar(){
 
 		$month = $this->_currentMonth;
 
-		if ($month == 1) {
-			
-			$month = 'January';
-		}
-		if ($month == 2) {
-			
-			$month = 'February';
-		}
-		if ($month == 3) {
-			$month = 'March';
-		}
-
-		if ($month == 4) {
-			$month = 'April';
-		}
-
-		if ($month == 5) {
-			$month = 'May';
-		}
-
-		if ($month == 6) {
-			$month = 'June';
-		}
-
-		if ($month == 7) {
-			$month = 'July';
-		}
-
-		if ($month == 8) {
-			$month = 'August';
-		}
-
-		if ($month == 9) {
-			$month = 'September';
-		}
-
-		if ($month == 10) {
-			$month = 'October';
-		}
-
-		if ($month == 11) {
-			$month = 'November';
-		}
-
-		if ($month == 12) {
-			$month = 'December';
-		}
+		$month_name = self::month_name($month);
 
 		if($this->edit == true){
 			$action = 'schedule_management.php';
@@ -413,7 +425,7 @@ Class Calendar {
 				
 				<div class="show_month">
 
-				Calendar date is set to<br> '. $month . ', ' . $this->_currentYear . '
+				Calendar date is set to<br> '. $month_name . ', ' . $this->_currentYear . '
 
 				</div>
 				<div class="next_month">
@@ -446,7 +458,7 @@ Class Calendar {
 						<div class="form-value">
 
 						<select name="userlist" id="userlist">
-							<option value="nouser">Select a user...</option>';
+							<option value="0">Select a user...</option>';
 								foreach (self::get_all_users_by_department() as $userdata) {
 									$this->_schedule_form .= ' <option ';if($userdata->username == $params['username']) {$this->_schedule_form .= 'selected="selected"';} $this->_schedule_form .= 'value="'.$userdata->username.'">'.$userdata->username.'</option>';
 								}
@@ -468,7 +480,7 @@ Class Calendar {
 						<div class="form-value">
 
 						<select name="shift" id="shift">
-							<option value="noshift">Select a shift...</option>';
+							<option value="0">Select a shift...</option>';
 								foreach (self::get_all_shifts_by_department() as $shiftdata) {
 									$this->_schedule_form .= ' <option ';if($shiftdata->shift_name == $params['shift']) {$this->_schedule_form .= 'selected="selected"';} $this->_schedule_form .= 'value="'.$shiftdata->shift_name.'">'.$shiftdata->shift_name.'</option>';
 								}
@@ -532,6 +544,31 @@ Class Calendar {
 		return $this->_schedule_form;
 	}
 
+	public function pick_department_form($params) {
+		$this->_update_department_form = '
+
+			<form method="post" action="schedule.php" name="pick_department">
+
+						<div class="form-value">
+
+						<select name="departmentlist" onChange="DoDepartmentPick();" id="departmentlist">
+							<option value="0">Select a department...</option>';
+								foreach (self::get_all_departments() as $departmentdata) {
+								$this->_update_department_form .= ' <option ';if($departmentdata->name == $params['name']) {$this->_update_department_form .= 'selected="selected"';} $this->_update_department_form .= 'value="'.$departmentdata->name.'">'.$departmentdata->name.'</option>';
+								}
+								$this->_update_department_form .= '
+						</select>
+						
+						</div>
+					
+			</form>
+
+
+		';
+
+		return $this->_update_department_form;
+	}
+
 	public function create($fields = array()) {
 
 		if(!$this->_db->insert('schedule', $fields)) {
@@ -575,6 +612,13 @@ Class Calendar {
 
 		return $data = $data->results();
 
+	}
+
+	private function get_all_departments(){
+
+		$data = $this->_db->query('SELECT * FROM departments', array(''));
+
+		return $data = $data->results();
 	}
 
 }

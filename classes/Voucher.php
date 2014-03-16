@@ -18,7 +18,7 @@ Class Voucher {
 
 				<fieldset>
 
-				<div class="legend"><h3>vouchers administration</h3></div>
+				<div class="legend"><h3>Add voucher</h3></div>
 					<table>
 
 					<div class="form-row">

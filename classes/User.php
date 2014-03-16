@@ -286,7 +286,7 @@ class User {
 					<div class="form-row">
 						<tr>
 						<td>
-						<div class="form-property">User</div>
+						<div class="form-property">Users list</div>
 						</td>
 						<td>
 						<div class="form-value">
@@ -612,14 +612,14 @@ class User {
 					<div class="form-row">
 						<tr>
 						<td>
-						<div class="form-property form-required">Username</div>
+						<div class="form-property form-required">Users list</div>
 						</td>
 
 						<td>
 						<div class="form-value">
 
 						<select name="delete_userlist" id="delete_userlist">
-							<option value="nouser">Select a user from bellow</option>';
+							<option value="0">Select a user...</option>';
 								foreach (self::get_all_users() as $userdata) {
 									$this->_delete_user_form .= ' <option value="'.$userdata->username.'">'.$userdata->username.'</option>';
 								}

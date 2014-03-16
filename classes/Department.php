@@ -16,7 +16,7 @@ Class Department {
 	public function create($fields = array()) {
 
 		if(!$this->_db->insert('departments', $fields)) {
-			throw new Exception('There was a problem creating an account.');
+			throw new Exception('There was a problem creating a department.');
 		}
 	}
 
@@ -30,7 +30,7 @@ Class Department {
 	public function delete($fields = array()) {
 
 		if(!$this->_db->delete('departments', $fields)) {
-			throw new Exception('There was a problem deleting an account.');
+			throw new Exception('There was a problem deleting a department.');
 		}
 	}
 
@@ -60,7 +60,7 @@ Class Department {
 					<div class="form-row">
 						<tr>
 						<td>
-						<div class="form-property form-required">department name</div>
+						<div class="form-property form-required">Department name</div>
 						</td>
 						<td>
 						<div class="form-value"><input type="text" name="name" size="30" id="department_name" class="text"></div>
@@ -104,13 +104,13 @@ Class Department {
 					<div class="form-row">
 						<tr>
 						<td>
-						<div class="form-property">department</div>
+						<div class="form-property">Departments list</div>
 						</td>
 						<td>
 						<div class="form-value">
 
 						<select name="departmentlist" onChange="DoDepartmentUpdate();" id="departmentlist">
-							<option value="nodepartment">Select a department from bellow</option>';
+							<option value="0">Select a department...</option>';
 								foreach (self::get_all_departments() as $departmentdata) {
 								$this->_update_department_form .= ' <option ';if($departmentdata->name == $params['name']) {$this->_update_department_form .= 'selected="selected"';} $this->_update_department_form .= 'value="'.$departmentdata->name.'">'.$departmentdata->name.'</option>';
 								}
@@ -126,7 +126,7 @@ Class Department {
 					<div class="form-row">
 						<tr>
 						<td>
-						<div class="form-property form-required">department name</div>
+						<div class="form-property form-required">Department name</div>
 						</td>
 						<td>
 						<div class="form-value"><input type="text" name="name" class="text" size="30" id="department_name" value="'.$params['name'].'"></div>
@@ -174,14 +174,14 @@ Class Department {
 					<div class="form-row">
 						<tr>
 						<td>
-						<div class="form-property form-required">department</div>
+						<div class="form-property form-required">Departments list</div>
 						</td>
 
 						<td>
 						<div class="form-value">
 
 						<select name="delete_departmentlist" id="delete_departmentlist">
-							<option value="nodepartment">Select a department from bellow</option>';
+							<option value="0">Select a department...</option>';
 								foreach (self::get_all_departments() as $departmentdata) {
 								$this->_delete_department_form .= ' <option value="'.$departmentdata->name.'">'.$departmentdata->name.'</option>';
 								}

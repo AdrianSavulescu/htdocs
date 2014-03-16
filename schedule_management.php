@@ -71,12 +71,11 @@ if($user->isLoggedIn()) {
 
 				<ul class="tabbed">
 					<li><a href="schedule.php">Schedule</a></li>
-					<li><a href="voucher.php">Voucher</a></li>
 					<li class="current_page_item"><a href="admin.php">Administration</a></li>
 				</ul>
 
 				<div class="clearer">&nbsp;</div>
-
+				
 			</div>
 
 		</div>
@@ -131,7 +130,7 @@ if($user->isLoggedIn()) {
 						//add schedule entry stuff
 						$input = Input::get('add_entry');
 
-						if($input == 'Add schedule entry' AND Input::get('userlist') != 'nouser' AND Input::get('shift') != 'noshift')  {
+						if($input == 'Add schedule entry')  {
 
 							$validate = new Validate();
 							$validation = $validate->check($_POST, array(
@@ -142,11 +141,15 @@ if($user->isLoggedIn()) {
 									'required' => true
 								),
 								'from' => array (
-									'required' => true
+									'required' => true,
+									'date' => true,
+									'lower' =>  Input::get('to')
+
 								),
 								'to' => array (
-									'required' => true
-								)
+									'required' => true,
+									'date' => true
+								),
 							));
 
 							if ($validation->passed()) {

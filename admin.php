@@ -4,7 +4,10 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
 	<link rel="stylesheet" type="text/css" href="css/style.css" media="screen" />
-	<script src="js/javascript.js" type="text/javascript"></script>
+	<link rel="stylesheet" type="text/css" href="css/ui-lightness/jquery-ui-1.10.4.custom.min.css" media="screen" />
+	<script src="/js/jquery-1.11.0.min.js"></script>
+	<script src="/js/jquery-ui-1.10.4.custom.min.js" type="text/javascript"></script>
+	<script src="/js/javascript.js" type="text/javascript"></script>
 	<title>Romania RPM Dashboard</title>
 </head>
 
@@ -111,13 +114,21 @@ if($user->isLoggedIn()) {
 								$validate = new Validate();
 								$validation = $validate->check($_POST, array(
 									'username' => array (
-										'required' => true
+										'required' => true,
+										'min' => '2',
+										'max' => '30'
 									),
 									'email' => array (
-										'required' => true
+										'required' => true,
+										'email' => true,
+										'min' => '2',
+										'max' => '30'
 									),
 									'department' => array (
 										'required' => true
+									),
+									'color' => array (
+										'color' => true
 									)
 								));
 
@@ -189,11 +200,23 @@ if($user->isLoggedIn()) {
 
 								$validate = new Validate();
 								$validation = $validate->check($_POST, array(
-									'username' => array(
+									'username' => array (
 										'required' => true,
-										'min' => 2,
-										'max' => 50
-										)
+										'min' => '2',
+										'max' => '30'
+									),
+									'email' => array (
+										'required' => true,
+										'email' => true,
+										'min' => '2',
+										'max' => '30'
+									),
+									'department' => array (
+										'required' => true
+									),
+									'color' => array (
+										'color' => true
+									)
 								));
 
 								if($validation->passed()) {
@@ -285,6 +308,16 @@ if($user->isLoggedIn()) {
 								$validate = new Validate();
 								$validation = $validate->check($_POST, array(
 									'name' => array (
+										'required' => true,
+										'min' => '2',
+										'max' => '30'
+									),
+									'description' => array (
+										'required' => true,
+										'min' => '2',
+										'max' => '30'
+									),
+									'department' => array (
 										'required' => true
 									)
 								));
@@ -341,9 +374,19 @@ if($user->isLoggedIn()) {
 
 								$validate = new Validate();
 								$validation = $validate->check($_POST, array(
-									'name' => array(
+									'name' => array (
+										'required' => true,
+										'min' => '2',
+										'max' => '30'
+									),
+									'description' => array (
+										'required' => true,
+										'min' => '2',
+										'max' => '30'
+									),
+									'department' => array (
 										'required' => true
-										)
+									)
 								));
 
 								if($validation->passed()) {
@@ -431,7 +474,9 @@ if($user->isLoggedIn()) {
 								$validate = new Validate();
 								$validation = $validate->check($_POST, array(
 									'name' => array (
-										'required' => true
+										'required' => true,
+										'min' => '2',
+										'max' => '15'
 									)
 								));
 
@@ -481,9 +526,11 @@ if($user->isLoggedIn()) {
 
 								$validate = new Validate();
 								$validation = $validate->check($_POST, array(
-									'name' => array(
-										'required' => true
-										)
+									'name' => array (
+										'required' => true,
+										'min' => '2',
+										'max' => '15'
+									)
 								));
 
 								if($validation->passed()) {
@@ -577,18 +624,22 @@ if($user->isLoggedIn()) {
 							//add voucher entry stuff
 							$input = Input::get('add_entry');
 
-							if($input == 'Add voucher entry' AND Input::get('userlist') != '0')  {
+							if($input == 'Add voucher entry')  {
 
 								$validate = new Validate();
 								$validation = $validate->check($_POST, array(
 									'userlist' => array (
-										'required' => true
+										'required' => true,
 									),
 									'key' => array (
-										'required' => true
+										'required' => true,
+										'min' => '3',
+										'max' => '5'
 									),
 									'number' => array (
-										'required' => true
+										'required' => true,
+										'min' => '5',
+										'max' => '10'
 									)
 								));
 
@@ -617,14 +668,17 @@ if($user->isLoggedIn()) {
 								}
 							}
 							
+
+
 							echo $voucher->form($params);
-
+							
+							echo 'Given vouchers:';
+							
 							echo $voucher->generate_voucher_management();
-
-
 
 							echo '</div>';
 							break;
+
 
 							case 'PTO':
 							
@@ -635,11 +689,71 @@ if($user->isLoggedIn()) {
 
 							$pto = new PTO;
 
+							$user_details = $user->get_user_details($data->username);
+						
+							$pto->department = $user_details[0]->department_name;
+
+							$params['user_id'] = Input::get('userlist');
+
+							$input = Input::get('request_pto');
+
+							if($input == 'Request PTO') {
+
+								$validate = new Validate();
+								$validation = $validate->check($_POST, array(
+									'userlist' => array(
+										'required' => true
+									),
+									'first_pto' => array (
+										'required' => true,
+										'date' => true,
+										'lower' =>  Input::get('last_pto')
+									),
+									'last_pto' => array (
+										'required' => true,
+										'date' => true
+									),
+									'pto_description' => array (
+										'required' => true,
+										'min' => '3',
+										'max' => '30'
+									)
+								));
+
+								if ($validation->passed()) {
+
+
+									try {
+
+										$pto->request(array(
+											'user_id' => Input::get('userlist'),
+											'date_from' => Input::get('first_pto'),
+											'date_to' => Input::get('last_pto'),
+											'description' => Input::get('pto_description'),
+											'status' => 'Pending'
+										));
+
+										echo 'Success';
+
+									} catch(Exception $e) {
+										die($e->getMessage());
+									}
+								} else {
+									foreach($validation->errors() as $error) {
+										echo $error, '<br>';
+									}
+								}
+							}
+
+							echo $pto->pto_request_form($params);
+
+
 							$action = Input::get('action');
 							$value = Input::get('id');
 
 							$pto->check_page_action($action, $value);
 
+							echo 'All PTO requests';
 							echo $pto->generate_pto_management();
 
 
@@ -652,6 +766,64 @@ if($user->isLoggedIn()) {
 							echo '<div class="post-body">';
 						
 							$ot = new OT;
+
+							$user_details = $user->get_user_details($data->username);
+						
+							$ot->department = $user_details[0]->department_name;
+
+							$params['user_id'] = Input::get('userlist');
+
+							$input = Input::get('request_ot');
+
+							if($input == 'Request OT') {
+
+								$validate = new Validate();
+								$validation = $validate->check($_POST, array(
+									'userlist' => array (
+										'required' => true
+									),
+									'date' => array (
+										'required' => true,
+										'date' => true
+									),
+									'hours' => array (
+										'required' => true,
+										'min' => '1',
+										'max' => '20'
+									),
+									'description' => array (
+										'required' => true,
+										'min' => '2',
+										'max' => '30'
+									)
+								));
+
+								if ($validation->passed()) {
+
+
+									try {
+
+										$ot->request(array(
+											'user_id' => Input::get('userlist'),
+											'date' => Input::get('date'),
+											'hours' => Input::get('hours'),
+											'description' => Input::get('description'),
+											'status' => 'Pending'
+										));
+
+										echo 'Success';
+
+									} catch(Exception $e) {
+										die($e->getMessage());
+									}
+								} else {
+									foreach($validation->errors() as $error) {
+										echo $error, '<br>';
+									}
+								}
+							}
+
+							echo $ot->ot_request_form($params);
 
 							$action = Input::get('action');
 							$value = Input::get('id');

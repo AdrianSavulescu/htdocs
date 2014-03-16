@@ -4,9 +4,10 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
 	<link rel="stylesheet" type="text/css" href="css/style.css" media="screen" />
-	<script src="js/jquery-1.11.0.min.js"></script>
-	<script src="js/jquery-ui-1.10.4.custom.min.js" type="text/javascript"></script>
-	<script src="js/javascript.js" type="text/javascript"></script>
+	<link rel="stylesheet" type="text/css" href="css/ui-lightness/jquery-ui-1.10.4.custom.min.css" media="screen" />
+	<script src="/js/jquery-1.11.0.min.js"></script>
+	<script src="/js/jquery-ui-1.10.4.custom.min.js" type="text/javascript"></script>
+	<script src="/js/javascript.js" type="text/javascript"></script>
 	<title>Romania RPM Dashboard</title>
 </head>
 
@@ -95,12 +96,31 @@ if($user->isLoggedIn()) {
 
 						//create new instance of calendar
 						$calendar = new Calendar;
-
 						$user_details = $user->get_user_details($data->username);
 
-						$calendar->department = $user_details[0]->department_name;
+						if (!empty(Input::get('departmentlist'))) {
 
-						echo '<div class="post-title"><h1 class="text-center">'. $user_details[0]->department_name .' Schedule</h1></div>';
+							$department = Input::get('departmentlist');
+
+						} else {
+
+							$department = $user_details[0]->department_name;
+							
+						}
+
+						$calendar->department = $department;
+						$params['name'] = $department;
+
+						echo '<div class="post-title">
+
+							<div style="float: left;">
+								<h1>'. $department .' Schedule</h1>
+							</div>
+
+							<div style="float: right;">'.$calendar->pick_department_form($params).'</div>
+							<div class="clearer">&nbsp;</div>
+						
+						</div>';
 						echo '<div class="post-body">';
 
 						//generate calendar menu bar

@@ -141,7 +141,7 @@ Class Shift {
 					<div class="form-row">
 						<tr>
 						<td>
-						<div class="form-property">Shift</div>
+						<div class="form-property">Shifts list</div>
 						</td>
 						<td>
 						<div class="form-value">
@@ -246,14 +246,14 @@ Class Shift {
 					<div class="form-row">
 						<tr>
 						<td>
-						<div class="form-property form-required">Shift</div>
+						<div class="form-property form-required">Shifts list</div>
 						</td>
 
 						<td>
 						<div class="form-value">
 
 						<select name="delete_shiftlist" id="delete_shiftlist">
-							<option value="noshift">Select a shift from bellow</option>';
+							<option value="0">Select a shift...</option>';
 								foreach (self::get_all_shifts() as $shift) {
 								$this->_delete_shift_form .= ' <option value="'.$shift->name.'">'.$shift->name.'</option>';
 								}

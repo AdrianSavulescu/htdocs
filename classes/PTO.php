@@ -4,7 +4,10 @@ Class PTO {
 
 	private $_db,
 			$_pto_form,
-			$_pto_request_form;
+			$_pto_request_form,
+			$_self_pto_request_form;
+
+	public $department;
 	
 
 	public function __construct() {
@@ -63,6 +66,12 @@ Class PTO {
 
 		$data = $this->_db->query('SELECT * FROM pto', array(''));
 
+		return $data = $data->results();
+	}
+
+	private function get_pto_by_user($id){
+
+		$data = $this->_db->query('SELECT * FROM pto WHERE user_id', array($id));
 
 		return $data = $data->results();
 	}
@@ -110,9 +119,9 @@ Class PTO {
 		}
 	}
 
-	public function pto_request_form() {
+	public function self_pto_request_form() {
 
-		$this->_pto_request_form = '
+		$this->_self_pto_request_form = '
 
 
 		<form method="post" action="profile.php?page=PTO" name="request_pto" id="reply">
@@ -125,7 +134,7 @@ Class PTO {
 						<div class="form-property form-required">First PTO day</div>
 						</td>
 						<td>
-						<div class="form-value"><input type="text" size="32" name="first_pto" value="" class="text" id="datepicker"></div>
+						<div class="form-value"><input type="text" name="first_pto" value="" class="text" id="datepicker_pto_from"></div>
 						</td>
 						</tr>
 
@@ -139,7 +148,7 @@ Class PTO {
 						<div class="form-property form-required">Last PTO day</div>
 						</td>
 						<td>
-						<div class="form-value"><input type="text" size="32" name="last_pto" value="" class="text" id="datepicker"></div>
+						<div class="form-value"><input type="text" name="last_pto" value="" class="text" id="datepicker_pto_to"></div>
 						</td>
 						</tr>
 						<div class="clearer">&nbsp;</div>
@@ -152,7 +161,7 @@ Class PTO {
 						<div class="form-property form-required">PTO Description</div>
 						</td>
 						<td>
-						<div class="form-value"><input type="text" size="32" name="pto_description" value="" class="text" /></div>
+						<div class="form-value"><input type="text" name="pto_description" value="" class="text" /></div>
 						</td>
 						</tr>
 						<div class="clearer">&nbsp;</div>
@@ -178,6 +187,99 @@ Class PTO {
 
 		';
 
+		return $this->_self_pto_request_form;
+	}
+
+	public function pto_request_form($params) {
+
+		$this->_pto_request_form = '
+
+
+		<form method="post" action="admin.php?page=PTO" name="request_pto" id="reply">
+
+				<fieldset>
+					<div class="legend"><h3>Add PTO entry</h3></div>
+					<table>
+
+					<div class="form-row">
+						<tr>
+						<td>
+						<div class="form-property">User</div>
+						</td>
+						<td>
+						<div class="form-value">
+
+						<select name="userlist" id="userlist">
+							<option value="0">Select a user...</option>';
+								foreach (self::get_all_users_by_department() as $userdata) {
+									$this->_pto_request_form .= ' <option ';if($userdata->user_id == $params['user_id']) {$this->_pto_request_form .= 'selected="selected"';} $this->_pto_request_form .= 'value="'.$userdata->user_id.'">'.$userdata->username.'</option>';
+								}
+								$this->_pto_request_form .= '
+						</select>
+						</div>
+						</td>
+						</tr>
+						<div class="clearer">&nbsp;</div>
+						
+					</div>
+
+					<div class="form-row">
+						<tr>
+						<td>
+						<div class="form-property form-required">First PTO day</div>
+						</td>
+						<td>
+						<div class="form-value"><input type="text" name="first_pto" value="" class="text" id="datepicker_pto_from"></div>
+						</td>
+						</tr>
+
+						<div class="clearer">&nbsp;</div>
+
+					</div>
+
+					<div class="form-row">
+						<tr>
+						<td>
+						<div class="form-property form-required">Last PTO day</div>
+						</td>
+						<td>
+						<div class="form-value"><input type="text" name="last_pto" value="" class="text" id="datepicker_pto_to"></div>
+						</td>
+						</tr>
+						<div class="clearer">&nbsp;</div>
+
+					</div>
+
+					<div class="form-row">
+						<tr>
+						<td>
+						<div class="form-property form-required">PTO Description</div>
+						</td>
+						<td>
+						<div class="form-value"><input type="text" name="pto_description" value="" class="text" /></div>
+						</td>
+						</tr>
+						<div class="clearer">&nbsp;</div>
+
+					</div>
+					
+					<div class="form-row form-row-submit">
+						<tr>
+						<td>
+						</td>
+						<td>
+						<div class="form-value"><input type="submit" name="request_pto" class="button" value="Request PTO" /></div>
+						</td>
+						</tr>
+						<div class="clearer">&nbsp;</div>
+
+					</div>
+				</table>
+				</fieldset>
+
+			</form>
+		';
+
 		return $this->_pto_request_form;
 	}
 
@@ -186,6 +288,43 @@ Class PTO {
 		$data = $this->_db->query('SELECT pto.user_id, users.username, users.id FROM users, pto WHERE pto.user_id = users.id AND pto.user_id = ?', array($id));
 	
 		return $data = $data->results();
+	}
+
+	private function get_all_users_by_department(){
+
+		$data = $this->_db->query('SELECT users.username, users.id AS user_id, departments.id AS department_id FROM users, departments WHERE departments.id = users.department_id AND departments.name = ?', array($this->department));
+
+		return $data = $data->results();
+	}
+
+	public function generate_my_pto_list($user_id){
+
+		$this->_my_pto_list = '
+		<table border="1" width="650">
+		<tr>
+		<th>First Work Day Out</th>
+		<th>Last Work Day Out</th>
+		<th>PTO description</th>
+		<th>Approval Status</th>
+		</tr>';	
+
+		foreach (self::get_pto_by_user($user_id) as $pto_request) {
+
+			$data = self::get_user_name($pto_request->user_id);
+
+			$this->_my_pto_list .= '
+				<tr>
+				<td>'. $pto_request->date_from .'</td>
+				<td>'. $pto_request->date_to .'</td>
+				<td>'. $pto_request->description .'</td>
+				<td>'. $pto_request->status .'</td>
+				</tr>';
+		}
+
+		$this->_my_pto_list .= '</table>';
+
+		return $this->_my_pto_list;
+
 	}
 
 

@@ -40,6 +40,33 @@ class Validate {
 								$this->addError("{$item} already exists");
 							}
 						break;
+						case 'email':
+							$result = preg_match("/([\w\-]+\@[\w\-]+\.[\w\-]+)/",$value);
+
+							if ($result != true){
+							  	$this->addError("{$item} is not an email valid format");
+							}
+						break;
+						case 'color':
+							if($value == '#000000') {
+								$this->addError("Color must not be black");
+							}
+						break;
+						case 'date':
+
+							$datetime = DateTime::createFromFormat("d/m/Y", $value);
+
+							if ($datetime == false) {
+								$this->addError("Date format is invalid. Use the date picker pick your day.");
+							}
+
+						break;
+
+						case 'lower':
+							if($value > $rule_value) {
+								$this->addError("Initial date must be lower than or equal to following date");
+							}
+						break;
 					}
 				}
 			}
