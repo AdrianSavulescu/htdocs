@@ -13,7 +13,7 @@ Class Calendar {
 			$_week,
 			$_calendar = NULL;
 
-	public $department;
+	public $department_id;
 	public $edit = false;
 
 	public function __construct() {
@@ -68,8 +68,6 @@ Class Calendar {
 				$this->_calendar .= '</tbody>';
 				$this->_calendar .= '</table>';
 			}
-
-		
 
 		echo $this->_calendar;
 
@@ -188,13 +186,13 @@ Class Calendar {
 
 	public function schedule() {
 
-		foreach(self::get_shifts_by_department_and_date() as $shift) {
+		foreach(self::get_shifts_by_department_and_date() as $data) {
 
 				$usercount = 0;
 
-				$shift_data = self::get_shift_details($shift->shift);
+				$shift_data = self::get_shift_details($data->shift_id);
 
-				foreach(self::get_users_by_shift($shift->shift) as $user) {
+				foreach(self::get_users_by_shift($data->shift_id) as $user) {
 
 					$usercount++;
 
@@ -204,15 +202,17 @@ Class Calendar {
 
 					$this->_calendar .= '<tr class="shift_data_container">';
 
-					$this->_calendar .= '<td class="shift_name" rowspan="'.$usercount.'">'. $shift->shift .' '. $shift_data[0]->description .'</td>';
+
+					$this->_calendar .= '<td class="shift_name" rowspan="'.$usercount.'">'. $shift_data[0]->name .' '. $shift_data[0]->description .'</td>';
 
 				}
 
 
-			foreach(self::get_users_by_shift($shift->shift) as $user) {
-
+			foreach(self::get_users_by_shift($data->shift_id) as $cur_user) {
 
 				$current_day = $this->_counter - 7;
+
+				$user_data = self::get_user_details($cur_user->user_id);
 
 				//nr of days loop
 				for ($days=1; $days<=7;$days++) {
@@ -220,20 +220,20 @@ Class Calendar {
 					$current_day = $current_day +1;
 					$this->_currentDay = $current_day;
 					
-					if ($data = self::user_is_active_on_shift($user->username, $shift->shift)){
+					if (self::user_is_active_on_shift($cur_user->user_id, $data->shift_id)){
 
-						$color = self::get_user_color($user->username);
+						$cur_user_schedule_data = self::get_user_schedule_data($cur_user->user_id, $data->shift_id);
 
-						$this->_calendar .= '<td class="user_data" id="'. $data[0]->id .'" style="background-color: '. $color[0]->color .';">';
+						$this->_calendar .= '<td class="user_data" id="'. $cur_user_schedule_data->id .'" style="background-color: '. $user_data[0]->color .';">';
 
 						$this->_calendar .= '
-						<div class="userbox" id="'.$data[0]->id.'"> '. $user->username;
+						<div class="userbox" id="'.$cur_user_schedule_data->id.'"> '. $user_data[0]->username;
 
 						if($this->edit == true) {
 
 						$this->_calendar .= '
 							<form action="schedule.php?page=management&ajax=true" method="post">
-								<input type="hidden" name="id" value="'. $data[0]->id .'" class="id">
+								<input type="hidden" name="id" value="'. $cur_user_schedule_data->id .'" class="id">
 								<input type="submit" name="remove_entry" value="x" class="ajax_btn">
 							</form>';
 
@@ -273,23 +273,16 @@ Class Calendar {
 
 	private function get_shifts_by_department_and_date() {
 
-		$data = $this->_db->query('SELECT DISTINCT shift FROM schedule WHERE `month` = ? AND year = ? AND department = ? ORDER BY shift asc', array($this->_currentMonth, $this->_currentYear, $this->department));
+		$data = $this->_db->query('SELECT DISTINCT shift_id FROM schedule WHERE `month` = ? AND year = ? AND department_id = ? ORDER BY shift_id asc', array($this->_currentMonth, $this->_currentYear, $this->department_id));
+
 
 		return $data = $data->results();
 
 	}
 
-	private function get_shifts_by_department() {
+	private function user_is_active_on_shift($user_id, $shift_id) {
 
-		$data = $this->_db->query('SELECT departments.name AS department_name, shifts.department_id, shifts.id AS shift_id, shifts.name AS shift_name, shifts.description FROM shifts, departments WHERE shifts.department_id = departments.id AND departments.name = ? ORDER BY name asc', array($this->department));
-
-		return $data = $data->results();
-
-	}
-
-	private function user_is_active_on_shift($username, $shift) {
-
-		$data = $this->_db->query('SELECT * FROM schedule WHERE `day` = ? AND `username` = ? AND `shift` = ?', array($this->_currentDay, $username, $shift));
+		$data = $this->_db->query('SELECT * FROM schedule WHERE `day` = ? AND `user_id` = ? AND `shift_id` = ?', array($this->_currentDay, $user_id, $shift_id));
 
 		if ($data->count() != 0) {
 
@@ -302,45 +295,48 @@ Class Calendar {
 
 	}
 
-	private function get_users_by_shift($shift) {
+	private function get_user_schedule_data($user_id, $shift_id) {
+
+		$data = $this->_db->query('SELECT * FROM schedule WHERE `day` = ? AND `user_id` = ? AND `shift_id` = ?', array($this->_currentDay, $user_id, $shift_id));
+
+		return $data = $data->first();
+
+	}
+
+	private function get_users_by_shift($shift_id) {
 
 
-		$data = $this->_db->query('SELECT DISTINCT username, shift FROM schedule WHERE shift = ?', array($shift));
+		$data = $this->_db->query('SELECT DISTINCT user_id, shift_id FROM schedule WHERE shift_id = ?', array($shift_id));
 
 		return $data = $data->results();
 	
 	}
 
-	private function get_shift_details($name){
+	private function get_shift_details($id){
 
-		$data = $this->_db->get('shifts', array('name', '=', $name));
+		$data = $this->_db->get('shifts', array('id', '=', $id));
 	
 		return $data = $data->results();
 	}
 
-	private function get_all_users_by_department(){
+	private function get_user_details($id){
 
-		$data = $this->_db->query('SELECT users.username, users.id AS user_id, departments.id AS department_id FROM users, departments WHERE departments.id = users.department_id AND departments.name = ?', array($this->department));
-
+		$data = $this->_db->get('users', array('id', '=', $id));
+	
 		return $data = $data->results();
 	}
 
-	private function get_all_shifts_by_department(){
+	public function get_department_details($id){
 
-		$data = $this->_db->query('SELECT shifts.name AS shift_name, shifts.department_id, departments.name AS department_name FROM shifts, departments WHERE departments.id = shifts.department_id AND departments.name = ?', array($this->department));
-
+		$data = $this->_db->get('departments', array('id', '=', $id));
+	
 		return $data = $data->results();
 	}
+
 
 	private function current_date(){
 
 		return $date = implode('-', array($this->_currentYear, $this->_currentMonth,$this->_currentDay));
-
-	}
-
-	private function week_interval() {
-
-		return $week_interval = array('first_day' => $this->_counter + 1, 'last_day' => $this->_counter + 7);
 
 	}
 
@@ -397,8 +393,6 @@ Class Calendar {
 		return $month;
 	}
 
-
-
 	public function generate_bar(){
 
 		$month = $this->_currentMonth;
@@ -439,110 +433,7 @@ Class Calendar {
 		';
 	}
 
-		public function schedule_form($params) {
-		$this->_schedule_form = '
 
-			<form method="post" action="schedule_management.php" name="schedule_form" id="reply">
-
-				<fieldset>
-
-				<div class="legend"><h3>Schedule planner</h3></div>
-					<table>
-
-					<div class="form-row">
-						<tr>
-						<td>
-						<div class="form-property">User</div>
-						</td>
-						<td>
-						<div class="form-value">
-
-						<select name="userlist" id="userlist">
-							<option value="0">Select a user...</option>';
-								foreach (self::get_all_users_by_department() as $userdata) {
-									$this->_schedule_form .= ' <option ';if($userdata->username == $params['username']) {$this->_schedule_form .= 'selected="selected"';} $this->_schedule_form .= 'value="'.$userdata->username.'">'.$userdata->username.'</option>';
-								}
-								$this->_schedule_form .= '
-						</select>
-						</div>
-						</td>
-						</tr>
-						<div class="clearer">&nbsp;</div>
-						
-					</div>
-
-					<div class="form-row">
-						<tr>
-						<td>
-						<div class="form-property form-required">User shift</div>
-						</td>
-						<td>
-						<div class="form-value">
-
-						<select name="shift" id="shift">
-							<option value="0">Select a shift...</option>';
-								foreach (self::get_all_shifts_by_department() as $shiftdata) {
-									$this->_schedule_form .= ' <option ';if($shiftdata->shift_name == $params['shift']) {$this->_schedule_form .= 'selected="selected"';} $this->_schedule_form .= 'value="'.$shiftdata->shift_name.'">'.$shiftdata->shift_name.'</option>';
-								}
-								$this->_schedule_form .= '
-
-						</select>
-						
-						</div>
-						</td>
-						</tr>
-						<div class="clearer">&nbsp;</div>
-						
-					</div>
-
-					<div class="form-row">
-						<tr>
-						<td>
-						<div class="form-property form-required">From</div>
-						</td>
-						<td>
-						<div class="form-value"><input type="text" name="from" class="text" id="datepicker_schedule_from"></div>
-						</td>
-						</tr>
-						<div class="clearer">&nbsp;</div>
-						
-					</div>
-
-					<div class="form-row">
-						<tr>
-						<td>
-						<div class="form-property form-required">To</div>
-						</td>
-						<td>
-						<div class="form-value"><input type="text" name="to" class="text" id="datepicker_schedule_to"></div>
-						</td>
-						</tr>
-						<div class="clearer">&nbsp;</div>
-						
-					</div>
-					
-					<div class="form-row form-row-submit">
-						<tr>
-						<td>
-						</td>
-						<td>
-						<div class="form-value"><input type="submit" name="add_entry" class="button" value="Add schedule entry" /></div>
-						</td>
-						</tr>
-						<div class="clearer">&nbsp;</div>
-
-					</div>
-
-				
-				</table>
-				</fieldset>
-
-			</form>
-
-		';
-
-		return $this->_schedule_form;
-	}
 
 	public function pick_department_form($params) {
 		$this->_update_department_form = '
@@ -554,7 +445,7 @@ Class Calendar {
 						<select name="departmentlist" onChange="DoDepartmentPick();" id="departmentlist">
 							<option value="0">Select a department...</option>';
 								foreach (self::get_all_departments() as $departmentdata) {
-								$this->_update_department_form .= ' <option ';if($departmentdata->name == $params['name']) {$this->_update_department_form .= 'selected="selected"';} $this->_update_department_form .= 'value="'.$departmentdata->name.'">'.$departmentdata->name.'</option>';
+								$this->_update_department_form .= ' <option ';if($departmentdata->id == $params['department_id']) {$this->_update_department_form .= 'selected="selected"';} $this->_update_department_form .= 'value="'.$departmentdata->id.'">'.$departmentdata->name.'</option>';
 								}
 								$this->_update_department_form .= '
 						</select>
@@ -569,49 +460,12 @@ Class Calendar {
 		return $this->_update_department_form;
 	}
 
-	public function create($fields = array()) {
-
-		if(!$this->_db->insert('schedule', $fields)) {
-			throw new Exception('There was a problem adding the schedule entry.');
-		}
-	}
-
-	public function delete($fields = array()) {
-
-		if(!$this->_db->delete('schedule', $fields)) {
-			throw new Exception('There was a problem deleting a schedule entry.');
-		}
-	}
-
 	public function current_month() {
 		return $this->_currentMonth;
 	}
 
 	public function current_year() {
 		return $this->_currentYear;
-	}
-
-	public function entry_exists($params) {
-
-		$data = $this->_db->query('SELECT * FROM schedule WHERE `username` = ? AND `shift` = ? AND `day` = ? AND `month` = ? AND `year` = ? AND `department` = ?', array($params['username'], $params['shift'], $params['day'], $params['month'], $params['year'], $params['department']));
-
-		if ($data->count() != 0) {
-
-			return true;
-
-		} else {
-
-			return false;
-		}
-
-	}
-
-	private function get_user_color($user) {
-
-		$data = $this->_db->query('SELECT color FROM users WHERE username = ?', array($user));
-
-		return $data = $data->results();
-
 	}
 
 	private function get_all_departments(){

@@ -96,25 +96,28 @@ if($user->isLoggedIn()) {
 
 						//create new instance of calendar
 						$calendar = new Calendar;
-						$user_details = $user->get_user_details($data->username);
+
 
 						if (!empty(Input::get('departmentlist'))) {
 
-							$department = Input::get('departmentlist');
+							$department_id = Input::get('departmentlist');
 
 						} else {
 
-							$department = $user_details[0]->department_name;
+							$department_id = $data->department_id;
 							
 						}
 
-						$calendar->department = $department;
-						$params['name'] = $department;
+						$calendar->department_id = $department_id;
+
+						$department_details = $calendar->get_department_details($department_id);
+
+						$params['department_id'] = $department_id;
 
 						echo '<div class="post-title">
 
 							<div style="float: left;">
-								<h1>'. $department .' Schedule</h1>
+								<h1>'. $department_details[0]->name .' Schedule</h1>
 							</div>
 
 							<div style="float: right;">'.$calendar->pick_department_form($params).'</div>

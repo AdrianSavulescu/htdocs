@@ -101,12 +101,12 @@ if($user->isLoggedIn()) {
 
 						//create new instance of calendar
 						$calendar = new Calendar;
+						$schedule = new Schedule;
 
 						//set department in the Calendar object to the modifier's department
-						
-						$user_details = $user->get_user_details($data->username);
-						
-						$calendar->department = $user_details[0]->department_name;
+
+						$schedule->department_id = $data->department_id;
+						$calendar->department_id = $data->department_id;
 
 						$calendar->edit = true;
 
@@ -117,15 +117,15 @@ if($user->isLoggedIn()) {
 
 						if(isset($_GET['ajax'])) {
 
-							$calendar->delete(array('id', '=', $_POST['id']));
+							$schedule->delete(array('id', '=', $_POST['id']));
 
 							echo 'Success';
 						}
 
 						echo '<div><span class="remove_feedback"></span></div>';
 
-						$params['username'] = Input::get('userlist');
-						$params['shift'] = Input::get('shift');
+						$params['user_id'] = Input::get('userlist');
+						$params['shift_id'] = Input::get('shift');
 
 						//add schedule entry stuff
 						$input = Input::get('add_entry');
@@ -176,23 +176,23 @@ if($user->isLoggedIn()) {
 
 
 									  $params = array(
-										'username' => Input::get('userlist'),
-										'shift' => Input::get('shift'),
+										'user_id' => Input::get('userlist'),
+										'shift_id' => Input::get('shift'),
 										'day' => $x,
 										'month' => $calendar->current_month(),
 										'year' => $calendar->current_year(),
-										'department' => $user_details[0]->department_name
+										'department_id' => $data->department_id
 										);
 
-										if(!$calendar->entry_exists($params)){
+										if(!$schedule->entry_exists($params)){
 
-											$calendar->create(array(
-											'username' => Input::get('userlist'),
-											'shift' => Input::get('shift'),
+											$schedule->create(array(
+											'user_id' => Input::get('userlist'),
+											'shift_id' => Input::get('shift'),
 											'day' => $x,
 											'month' => $calendar->current_month(),
 											'year' => $calendar->current_year(),
-											'department' => $user_details[0]->department_name
+											'department_id' => $data->department_id
 											));
 
 											$error = 'Success';
@@ -216,7 +216,7 @@ if($user->isLoggedIn()) {
 							}
 						}
 						
-						echo $calendar->schedule_form($params);
+						echo $schedule->schedule_form($params);
 
 
 						//generate calendar
